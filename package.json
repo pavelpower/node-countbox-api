@@ -4,12 +4,26 @@
   "description": "countbox api",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ./"
+    "lint": "eslint lib/ *.js tests/ && echo Lint passed.",
+    "test": "mocha"
   },
   "keywords": [
     "api",
     "countbox"
   ],
   "author": "pavelpower <pavel.power@gmail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+    "node": ">= 0.4.2"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "eslint": "^2.13.1",
+    "eslint-config-loopback": "^4.0.0",
+    "mocha": "^2.5.3"
+  },
+  "dependencies": {
+    "moment": "^2.13.0",
+    "request": "^2.72.0"
+  }
 }
