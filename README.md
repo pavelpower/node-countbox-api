@@ -21,7 +21,7 @@ Api
   .catch(error => console.log('getProfile ERROR', error));
 ```
 
-and run: `node sample.js`;
+and run: `LOGIN=userwebapi@server.com PASS=passwebapi node sample.js`;
 
 All Functions:
 ```
