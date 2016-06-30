@@ -158,16 +158,16 @@ Api
  * Obtaining data for SIM-report for the period
  * @param options {Object} - request params
  * @param options.id {Number|String} - ID of point, or IDs points sample: '1'; '1,2', 'all'
- * @param options.datebegin {Date|String} - start date of the sample period
- * @param options.dateend {Date|String} - end date of the sample period
+ * @param options.datebegin {Date|String} - the date of the first week (month)
+ * @param options.dateend {Date|String} - the date of the second week (month)
  * @param [options.isByWeek] {Boolean} - group by week (default by month)
  * @returns {{promise, resolve, reject}}
  */
 Api
   .getSIMReport({
     id: 'all',
-    datebegin: '2016-01-01',
-    dateend: '2017-01-01',
+    datebegin: '2016-06-05',
+    dateend: '2016-06-19',
     isByWeek: false,
   })
   .then(response => console.log('getSIMReport', response))

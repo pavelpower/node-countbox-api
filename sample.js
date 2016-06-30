@@ -22,23 +22,19 @@ Api
 
   })
   .then(response => {
-    console.log(response);
+    console.log('RESPONSE set finance:', response);
 
     var options = {
       id: 1,
-      datebegin: '2016-01-01',
-      dateend: '2017-01-01',
+      datebegin: '2016-06-29',
+      dateend: '2016-06-30',
       groupType: 1,
       isAllTime: false,
     };
 
     Api.getFinance(options)
-      .then(response => console.log('getFullFinance', response))
-      .catch(error => console.log('getFullFinance ERROR', error));
-
-    Api.getFullFinance(options)
-      .then(response => console.log('getFullFinance', response))
-      .catch(error => console.log('getFullFinance ERROR', error));
+      .then(response => console.log('getFinance', response))
+      .catch(error => console.log('getFinance ERROR', error));
   }).catch(error => console.log('ERROR', error));
 
 Api
@@ -53,7 +49,7 @@ Api
   .getTraffic({
     id: 'all',
     datebegin: '2016-01-01',
-    dateend: '2017-01-01',
+    dateend: '2016-06-29',
     groupType: 3,
     isAllTime: true,
     UserTz: 3,
@@ -65,7 +61,7 @@ Api
   .getSIMReport({
     id: 'all',
     datebegin: '2016-01-01',
-    dateend: '2017-01-01',
+    dateend: '2016-06-29',
     isByWeek: false,
   })
   .then(response => console.log('getSIMReport', response))

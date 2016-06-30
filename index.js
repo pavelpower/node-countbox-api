@@ -75,6 +75,11 @@ function Api(login, password, format) {
                 reject(err);
                 return;
               }
+
+              if (response.headers['content-type'].indexOf('application/json') > -1) {
+                body = JSON.parse(body);
+              }
+
               resolve(body);
             });
           }).catch(reject);
@@ -131,10 +136,14 @@ function Api(login, password, format) {
                 return;
               }
 
-              if (_format === 'json' && body.result !== 1 || !/<result>1<\/result>/.test(body)) {
-                reject(new Error('finance data is not save to Server'));
-              } else {
+              if (response.headers['content-type'].indexOf('application/json') > -1) {
+                body = JSON.parse(body);
+              }
+
+              if (body.hasOwnProperty('result') && body.result || /<result>1<\/result>/.test(body)) {
                 resolve(body);
+              } else {
+                reject(new Error('finance data is not save to Server'));
               }
             });
           }).catch(reject);
@@ -171,8 +180,8 @@ function Api(login, password, format) {
         }
 
         try {
-          options.datebegin = moment(options.datebegin).format(); // (ISO 8601)
-          options.dateend = moment(options.dateend).format(); // (ISO 8601)
+          options.datebegin = moment(options.datebegin).format('YYYY-MM-DD'); // (ISO 8601)
+          options.dateend = moment(options.dateend).format('YYYY-MM-DD'); // (ISO 8601)
         } catch (e) {
           reject(e);
           return;
@@ -191,6 +200,9 @@ function Api(login, password, format) {
               if (err) {
                 reject(new Error(err));
                 return;
+              }
+              if (response.headers['content-type'].indexOf('application/json') > -1) {
+                body = JSON.parse(body);
               }
               resolve(body);
             });
@@ -247,6 +259,9 @@ function Api(login, password, format) {
                 reject(err);
                 return;
               }
+              if (response.headers['content-type'].indexOf('application/json') > -1) {
+                body = JSON.parse(body);
+              }
               resolve(body);
             });
           }).catch(reject);
@@ -299,17 +314,17 @@ function Api(login, password, format) {
 
         authPromise
           .then(function(access_token) {
+            options.access_token = access_token;
             request.post({
               url: getHeadURL(format, '/point/getattendance/'),
-              form: {
-                access_token: access_token,
-                id: options.id,
-                datetime: options.datetime,
-              },
+              form: options,
             }, function(err, response, body) {
               if (err) {
                 reject(err);
                 return;
+              }
+              if (response.headers['content-type'].indexOf('application/json') > -1) {
+                body = JSON.parse(body);
               }
               resolve(body);
             });
@@ -321,8 +336,8 @@ function Api(login, password, format) {
      * Obtaining data for SIM-report for the period
      * @param options {Object} - request params
      * @param options.id {Number|String} - ID of point, or IDs points sample: '1'; '1,2', 'all'
-     * @param options.datebegin {Date|String} - start date of the sample period
-     * @param options.dateend {Date|String} - end date of the sample period
+     * @param options.datebegin {Date|String} - the date of the first week (month)
+     * @param options.dateend {Date|String} - the date of the second week (month)
      * @param [options.isByWeek] {Boolean} - group by week (default by month)
      * @returns {{promise, resolve, reject}}
      */
@@ -338,8 +353,8 @@ function Api(login, password, format) {
         }
 
         try {
-          options.datebegin = moment(options.datebegin).format(); // (ISO 8601)
-          options.dateend = moment(options.dateend).format(); // (ISO 8601)
+          options.datebegin = moment(options.datebegin).format('YYYY-MM-DD'); // (ISO 8601)
+          options.dateend = moment(options.dateend).format('YYYY-MM-DD'); // (ISO 8601)
         } catch (e) {
           reject(e);
           return;
@@ -347,20 +362,18 @@ function Api(login, password, format) {
 
         authPromise
           .then(function(access_token) {
+            options.access_token = access_token;
             request.post({
               url: getHeadURL(format, '/point/getsimdata/'),
-              form: {
-                access_token: access_token,
-                id: options.id,
-                datebegin: options.datebegin,
-                dateend: options.dateend,
-                isByWeek: options.isByWeek,
-              },
+              form: options,
             },
             function(err, response, body) {
               if (err) {
                 reject(err);
                 return;
+              }
+              if (response.headers['content-type'].indexOf('application/json') > -1) {
+                body = JSON.parse(body);
               }
               resolve(body);
             });
@@ -384,6 +397,9 @@ function Api(login, password, format) {
               if (err) {
                 reject(err);
                 return;
+              }
+              if (response.headers['content-type'].indexOf('application/json') > -1) {
+                body = JSON.parse(body);
               }
               resolve(body);
             });
